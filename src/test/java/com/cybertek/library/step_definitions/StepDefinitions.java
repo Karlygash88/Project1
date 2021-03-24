@@ -12,12 +12,36 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
+
 public class StepDefinitions {
 
     Login_Page loginPage = new Login_Page();
-    LandingPage_Students landingPage_students = new LandingPage_Students();
+    LandingPage_Students booksPage = new LandingPage_Students();
     LandingPage_Librarians landingPage_librarians = new LandingPage_Librarians();
     WebDriverWait wait = new WebDriverWait(Driver.getDriver(),10);
+
+
+    @Then("Student should see below info in book categories dropdown")
+    public void student_should_see_below_info_in_book_categories_dropdown(List<String> expectedCategories) {
+        List<String> actualCategories = booksPage.getAllBookCategories();
+        Assert.assertEquals(expectedCategories, actualCategories);
+    }
+
+    @Then("Student selects {string} from category dropdown")
+    public void student_selects_from_category_dropdown(String category) {
+        booksPage.selectCategory(category);
+    }
+
+    @Then("Student should see all the books from that category")
+    public void student_should_see_all_the_books_from_that_category() {
+        String actual = booksPage.getSelectedCategory();
+        WebDriverWait wait = new WebDriverWait(Driver.getDriver(), 10);
+        wait.until(ExpectedConditions.textToBePresentInElement(booksPage.listOfSelectedCategories.get(booksPage.listOfSelectedCategories.size()-1),actual));
+        for (WebElement each : booksPage.listOfSelectedCategories) {
+            Assert.assertEquals(each.getText(), actual);
+        }
+    }
 
 
     @Given("user login as a {string}")
@@ -58,7 +82,7 @@ public class StepDefinitions {
     @Then("user should see dropdown value as {int}")
     public void user_should_see_dropdown_value_as(Integer defaultValue) {
         wait.until(ExpectedConditions.urlContains("books"));
-        String defaultValueAsText = landingPage_students.getDefaultValueOfRecordsDropDown().getText();
+        String defaultValueAsText = booksPage.getDefaultValueOfRecordsDropDown().getText();
         Integer actualDefaultValue= Integer.valueOf(defaultValueAsText);
         Assert.assertEquals(defaultValue, actualDefaultValue);
     }

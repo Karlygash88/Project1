@@ -13,7 +13,7 @@ Feature: Verify both students and librarians can login and land on their respect
       | student   | books     |
       | librarian | dashboard |
 
-
+  @regression
   Scenario: Student logs in
     Given user logs as a student
     Then user should land on books page
