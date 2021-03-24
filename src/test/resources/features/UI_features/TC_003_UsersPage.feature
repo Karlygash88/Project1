@@ -1,6 +1,6 @@
 Feature: As a librarian, I should see data on dashboard page
 
-
+  @smoke
   Scenario: Librarian should land on dashboard
     Given user logs as a librarian
     Then user should land on "dashboard" page
