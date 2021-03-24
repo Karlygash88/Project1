@@ -33,6 +33,12 @@ public class Login_Page {
         sign_in_button.click();
     }
 
+    public void login_as_librarian(){
+        email_input.sendKeys(ConfigReader.getProperty("librarian68"));
+        password_input.sendKeys(ConfigReader.getProperty("librarian68Password"));
+        sign_in_button.click();
+    }
+
 
 
 
